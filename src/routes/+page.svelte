@@ -1,2 +1,3 @@
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a class="btn btn-primary" href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<a class="link" href="articles">Articles</a>
