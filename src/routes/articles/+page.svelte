@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type { PageServerData } from './$types';
 	import { fade } from 'svelte/transition';
 	import { enhance, type SubmitFunction } from '$app/forms';
 
-	export let data: PageData;
+	export let data: PageServerData;
 
 	const submitCreate: SubmitFunction = ({ data, cancel }) => {
 		if (!data.get('title')) {

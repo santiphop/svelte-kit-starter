@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type { PageServerData } from './$types';
 	import { enhance, type SubmitFunction } from '$app/forms';
 	import { goto } from '$app/navigation';
 
-	export let data: PageData;
+	export let data: PageServerData;
 	const flashMessage: SubmitFunction = () => {
 		return ({ result }) => {
 			if (result.type === 'success') {
