@@ -12,8 +12,10 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	duplicateArticle: async ({ url }) => {
-    const title = url.searchParams.get('title')
-    const content = url.searchParams.get('content')
+		const title = url.searchParams.get('title');
+		const content = url.searchParams.get('content');
+
+		if (!title) return fail(400, { message: 'Title is required.' });
 
 		try {
 			await prisma.article.create({
