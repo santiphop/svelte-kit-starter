@@ -1,18 +1,12 @@
 <script lang="ts">
-	import type { PageServerData } from './$types';
+	import type { ActionData, PageServerData } from './$types';
 	import { fade } from 'svelte/transition';
 	import { enhance, type SubmitFunction } from '$app/forms';
 
 	export let data: PageServerData;
+	export let form: ActionData;
 
-	const submitCreate: SubmitFunction = ({ data, cancel }) => {
-		// can validate like this
-		// but should be validate in page.server.ts
-		if (!data.get('title')) {
-			console.error('Title required');
-			cancel();
-		}
-
+	const submitCreate: SubmitFunction = () => {
 		return ({ result, update }) => {
 			if (result.type === 'success') {
 				console.log(result.data?.message);
@@ -35,7 +29,7 @@
 	};
 </script>
 
-<div class="card bg-primary" in:fade>
+<div class="card bg-blue-200" in:fade>
 	<div class="card-body space-y-8">
 		<h2 class="card-title">Articles</h2>
 		<form
@@ -45,8 +39,28 @@
 			class="flex flex-col gap-2 w-fit"
 		>
 			Write something!
-			<input id="title" name="title" class="input" placeholder="Title" />
-			<textarea id="content" name="content" class="textarea" placeholder="Content" />
+			<div>
+				<input
+					id="title"
+					name="title"
+					placeholder="Title"
+					class="input w-full"
+					class:input-error={form?.errors?.title}
+					value={String(form?.data?.title ?? '')}
+				/>
+				{#if form?.errors?.title}<p class="text-error">{form?.errors?.title[0]}</p>{/if}
+			</div>
+			<div>
+				<textarea
+					id="content"
+					name="content"
+					placeholder="Content"
+					class="textarea w-full"
+					class:textarea-error={form?.errors?.content}
+					value={`${form?.data?.content ?? ''}`}
+				/>
+				{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
+			</div>
 			<button type="submit" class="btn btn-secondary">Submit</button>
 		</form>
 		{#each data.articles as article}

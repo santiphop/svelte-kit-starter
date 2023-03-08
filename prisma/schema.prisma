@@ -11,7 +11,8 @@ datasource db {
 }
 
 model Article {
-  id      Int     @id @default(autoincrement())
-  title   String
-  content String?
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  createdAt DateTime @db.Timestamp(6) @default(now())
 }

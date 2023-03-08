@@ -1,9 +1,15 @@
 import type { Actions, PageServerLoad } from './$types';
 import { prisma } from '$lib/server/prisma';
 import { fail } from '@sveltejs/kit';
+import { z, ZodError } from 'zod';
+
+const articleSchema = z.object({
+	title: z.string().nonempty({ message: 'Title is required' }).trim(),
+	content: z.string().max(255, { message: 'Content must not longer than 255 chars' }).trim()
+});
 
 export const load: PageServerLoad = async () => {
-	const articles = await prisma.article.findMany();
+	const articles = await prisma.article.findMany({ orderBy: { createdAt: 'desc' } });
 
 	return {
 		articles
@@ -35,21 +41,20 @@ export const actions: Actions = {
 		};
 	},
 	createArticle: async ({ request }) => {
-		const { title, content } = Object.fromEntries(await request.formData()) as {
-			title: string;
-			content: string;
-		};
+		const formData = Object.fromEntries(await request.formData());
 
 		try {
-			await prisma.article.create({
-				data: {
-					title,
-					content
-				}
-			});
+			const data = articleSchema.parse(formData);
+			await prisma.article.create({ data });
 		} catch (error) {
-			console.error(error);
-			return fail(500, { message: 'Could not create the article.' });
+			if (error instanceof ZodError) {
+				const { fieldErrors } = error.flatten();
+				return {
+					data: formData,
+					errors: fieldErrors
+				};
+			}
+			return fail(500, { message: error });
 		}
 
 		return {
