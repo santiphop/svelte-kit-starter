@@ -1,5 +1,6 @@
 <script lang="ts">
-	import ThemeToggleIcon from './ThemeToggleIcon.svelte'
+	import ThemeSwitcher from './ThemeSwitcher.svelte'
+	import LocaleSwitcher from './LocaleSwitcher.svelte'
 
 	let drawers = ['articles', 'link1', 'link2', 'link3', 'link4', 'link5']
 </script>
@@ -30,14 +31,15 @@
 				<a href="/" class="btn btn-ghost text-xl lg:hidden normal-case">SvelteKit Starter Pack</a>
 			</div>
 			<div class="flex-none">
-				<ThemeToggleIcon />
+				<ThemeSwitcher />
+				<LocaleSwitcher />
 				<div class="dropdown-hover dropdown-end dropdown">
 					<label
 						for="dropdown-0"
 						class="btn btn-ghost no-animation m-1 cursor-default gap-4 text-lg text-base-100"
 						data-cy="profile_dropdown"
 					>
-						<span class="hidden normal-case lg:block">your name</span>
+						<span class="max-lg:hidden normal-case">your name</span>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"

@@ -6,6 +6,8 @@
 	export let data: PageServerData;
 
 	const submitCreate: SubmitFunction = ({ data, cancel }) => {
+		// can validate like this
+		// but should be validate in page.server.ts
 		if (!data.get('title')) {
 			console.error('Title required');
 			cancel();

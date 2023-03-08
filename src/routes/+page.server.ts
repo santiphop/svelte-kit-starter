@@ -7,10 +7,17 @@ export const actions: Actions = {
 		const redirectTo = url.searchParams.get('redirectTo');
 
 		if (theme) {
-			cookies.set('theme', theme, {
-				path: '/',
-				maxAge: 60 * 60 * 24 * 365
-			});
+			cookies.set('theme', theme, { path: '/' });
+		}
+
+		throw redirect(303, redirectTo ?? '/');
+	},
+	setLocale: async ({ url, cookies }) => {
+		const locale = url.searchParams.get('locale');
+		const redirectTo = url.searchParams.get('redirectTo');
+
+		if (locale) {
+			cookies.set('locale', locale, { path: '/' });
 		}
 
 		throw redirect(303, redirectTo ?? '/');
