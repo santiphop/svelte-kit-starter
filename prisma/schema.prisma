@@ -14,5 +14,5 @@ model Article {
   id        Int      @id @default(autoincrement())
   title     String
   content   String?
-  createdAt DateTime @db.Timestamp(6) @default(now())
+  createdAt DateTime @default(now())
 }

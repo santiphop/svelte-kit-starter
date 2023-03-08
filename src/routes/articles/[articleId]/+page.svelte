@@ -2,6 +2,7 @@
 	import type { PageServerData } from './$types';
 	import { enhance, type SubmitFunction } from '$app/forms';
 	import { goto } from '$app/navigation';
+	import LL from '$lib/i18n/i18n-svelte';
 
 	export let data: PageServerData;
 	const flashMessage: SubmitFunction = () => {
@@ -26,5 +27,5 @@
 		placeholder="Content"
 		value={data?.article?.content}
 	/>
-	<button formaction="?/editArticle" type="submit" class="btn btn-secondary">Submit</button>
+	<button formaction="?/editArticle" type="submit" class="btn btn-secondary">{$LL.submit()}</button>
 </form>

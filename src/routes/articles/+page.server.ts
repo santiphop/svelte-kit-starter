@@ -3,11 +3,6 @@ import { prisma } from '$lib/server/prisma';
 import { fail } from '@sveltejs/kit';
 import { z, ZodError } from 'zod';
 
-const articleSchema = z.object({
-	title: z.string().nonempty({ message: 'Title is required' }).trim(),
-	content: z.string().max(255, { message: 'Content must not longer than 255 chars' }).trim()
-});
-
 export const load: PageServerLoad = async () => {
 	const articles = await prisma.article.findMany({ orderBy: { createdAt: 'desc' } });
 
@@ -40,7 +35,18 @@ export const actions: Actions = {
 			message: 'Duplicate article success!'
 		};
 	},
-	createArticle: async ({ request }) => {
+	createArticle: async ({ request, locals: { $LL } }) => {
+		const articleSchema = z.object({
+			title: z
+				.string()
+				.nonempty({ message: `${$LL.attributes.title()}${$LL.errors.blank()}` })
+				.trim(),
+			content: z
+				.string()
+				.max(255, { message: `${$LL.attributes.content()}${$LL.errors.maxlength(255)}` })
+				.trim()
+		});
+
 		const formData = Object.fromEntries(await request.formData());
 
 		try {

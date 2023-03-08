@@ -13,7 +13,12 @@
 	<label for="dropdown-1" class="btn btn-ghost m-1">{$page.data.locale}</label>
 	<ul id="dropdown-1" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36">
 		{#each locales as locale}
-			<li><button formaction="/?/setLocale&locale={locale}" class="p-2 uppercase">{locale}</button></li>
+			<li>
+				<button
+					formaction="/?/setLocale&locale={locale}&redirectTo={$page.url.pathname}"
+					class="p-2 uppercase">{locale}</button
+				>
+			</li>
 		{/each}
 	</ul>
 </form>

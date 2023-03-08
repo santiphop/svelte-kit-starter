@@ -2,6 +2,7 @@
 	import type { ActionData, PageServerData } from './$types';
 	import { fade } from 'svelte/transition';
 	import { enhance, type SubmitFunction } from '$app/forms';
+	import LL from '$lib/i18n/i18n-svelte';
 
 	export let data: PageServerData;
 	export let form: ActionData;
@@ -31,22 +32,22 @@
 
 <div class="card bg-blue-200" in:fade>
 	<div class="card-body space-y-8">
-		<h2 class="card-title">Articles</h2>
+		<h2 class="card-title">{$LL.articles()}</h2>
 		<form
 			method="POST"
 			action="?/createArticle"
 			use:enhance={submitCreate}
 			class="flex flex-col gap-2 w-fit"
 		>
-			Write something!
+			{$LL.write_something()}
 			<div>
 				<input
 					id="title"
 					name="title"
-					placeholder="Title"
+					placeholder={$LL.attributes.title()}
 					class="input w-full"
 					class:input-error={form?.errors?.title}
-					value={String(form?.data?.title ?? '')}
+					value={form?.data?.title ?? ''}
 				/>
 				{#if form?.errors?.title}<p class="text-error">{form?.errors?.title[0]}</p>{/if}
 			</div>
@@ -54,14 +55,14 @@
 				<textarea
 					id="content"
 					name="content"
-					placeholder="Content"
+					placeholder={$LL.attributes.content()}
 					class="textarea w-full"
 					class:textarea-error={form?.errors?.content}
 					value={`${form?.data?.content ?? ''}`}
 				/>
 				{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
 			</div>
-			<button type="submit" class="btn btn-secondary">Submit</button>
+			<button type="submit" class="btn btn-secondary">{$LL.submit()}</button>
 		</form>
 		{#each data.articles as article}
 			<div class="card card-body bg-accent text-accent-content">
@@ -73,7 +74,7 @@
 				>
 					<h3 class="text-2xl">{article.title}<span class="text-sm">(id: {article.id})</span></h3>
 					<div>
-						<div class="tooltip" data-tip="Duplicate">
+						<div class="tooltip" data-tip={$LL.duplicate()}>
 							<button
 								formaction="?/duplicateArticle&title={article.title}&content={article.content}"
 								class="btn btn-circle btn-ghost"
@@ -94,7 +95,7 @@
 								</svg>
 							</button>
 						</div>
-						<div class="tooltip" data-tip="Edit">
+						<div class="tooltip" data-tip={$LL.edit()}>
 							<a href="./articles/{article.id}" class="btn btn-circle btn-ghost">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +113,7 @@
 								</svg>
 							</a>
 						</div>
-						<div class="tooltip" data-tip="Delete">
+						<div class="tooltip" data-tip={$LL.delete()}>
 							<button type="submit" class="btn btn-circle btn-ghost">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"

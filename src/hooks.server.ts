@@ -1,10 +1,15 @@
-import type { BaseLocale, Locales } from '$lib/i18n/i18n-types';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+import type { BaseLocale, Locales } from '$lib/i18n/i18n-types';
+import { i18n } from '$lib/i18n/i18n-util';
+import { loadAllLocales } from '$lib/i18n/i18n-util.sync';
 
 export type Theme = 'light' | 'dark';
 const DEFAULT_THEME: Theme = 'light';
 const DEFAULT_LOCALE: BaseLocale = 'en';
+
+loadAllLocales();
+const L = i18n();
 
 export const isValidTheme = (theme?: FormDataEntryValue | null): theme is Theme =>
 	!!theme && (theme === 'light' || theme === 'dark' || theme === 'auto');
@@ -24,6 +29,7 @@ export const handleLocale: Handle = async ({ event, resolve }) => {
 	}
 
 	event.locals.locale = locale ?? DEFAULT_LOCALE;
+	event.locals.$LL = L[locale ?? DEFAULT_LOCALE];
 
 	return await resolve(event, {
 		transformPageChunk: ({ html }) => html.replace('%LANG%', locale ?? DEFAULT_LOCALE)

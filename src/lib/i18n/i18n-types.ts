@@ -18,14 +18,111 @@ type RootTranslation = {
 	 * H​i​ ​{​n​a​m​e​}​!​ ​P​l​e​a​s​e​ ​l​e​a​v​e​ ​a​ ​s​t​a​r​ ​i​f​ ​y​o​u​ ​l​i​k​e​ ​t​h​i​s​ ​p​r​o​j​e​c​t​:​ ​h​t​t​p​s​:​/​/​g​i​t​h​u​b​.​c​o​m​/​i​v​a​n​h​o​f​e​r​/​t​y​p​e​s​a​f​e​-​i​1​8​n
 	 * @param {string} name
 	 */
-	HI: RequiredParams<'name'>
+	hi: RequiredParams<'name'>
+	/**
+	 * W​r​i​t​e​ ​s​o​m​e​t​h​i​n​g​!
+	 */
+	write_something: string
+	/**
+	 * A​r​t​i​c​l​e​s
+	 */
+	articles: string
+	/**
+	 * E​d​i​t​ ​t​h​i​s​ ​A​r​t​i​c​l​e​s
+	 */
+	edit_this_articles: string
+	/**
+	 * S​u​b​m​i​t
+	 */
+	submit: string
+	/**
+	 * D​u​p​l​i​c​a​t​e
+	 */
+	duplicate: string
+	/**
+	 * E​d​i​t
+	 */
+	edit: string
+	/**
+	 * D​e​l​e​t​e
+	 */
+	'delete': string
+	attributes: {
+		/**
+		 * T​i​t​l​e
+		 */
+		title: string
+		/**
+		 * C​o​n​t​e​n​t
+		 */
+		content: string
+	}
+	errors: {
+		/**
+		 *  ​i​s​ ​r​e​q​u​i​r​e​d​.
+		 */
+		blank: string
+		/**
+		 *  ​m​u​s​t​ ​n​o​t​ ​l​o​n​g​e​r​ ​t​h​a​n​ ​{​0​}​ ​c​h​a​r​s
+		 * @param {number} 0
+		 */
+		maxlength: RequiredParams<'0'>
+	}
 }
 
 export type TranslationFunctions = {
 	/**
 	 * Hi {name}! Please leave a star if you like this project: https://github.com/ivanhofer/typesafe-i18n
 	 */
-	HI: (arg: { name: string }) => LocalizedString
+	hi: (arg: { name: string }) => LocalizedString
+	/**
+	 * Write something!
+	 */
+	write_something: () => LocalizedString
+	/**
+	 * Articles
+	 */
+	articles: () => LocalizedString
+	/**
+	 * Edit this Articles
+	 */
+	edit_this_articles: () => LocalizedString
+	/**
+	 * Submit
+	 */
+	submit: () => LocalizedString
+	/**
+	 * Duplicate
+	 */
+	duplicate: () => LocalizedString
+	/**
+	 * Edit
+	 */
+	edit: () => LocalizedString
+	/**
+	 * Delete
+	 */
+	'delete': () => LocalizedString
+	attributes: {
+		/**
+		 * Title
+		 */
+		title: () => LocalizedString
+		/**
+		 * Content
+		 */
+		content: () => LocalizedString
+	}
+	errors: {
+		/**
+		 *  is required.
+		 */
+		blank: () => LocalizedString
+		/**
+		 *  must not longer than {0} chars
+		 */
+		maxlength: (arg0: number) => LocalizedString
+	}
 }
 
 export type Formatters = {}
