@@ -5,7 +5,7 @@ const en: BaseTranslation = {
 	hi: 'Hi {name:string}! Please leave a star if you like this project: https://github.com/ivanhofer/typesafe-i18n',
 	write_something: 'Write something!',
 	articles: 'Articles',
-	edit_this_articles: 'Edit this Articles',
+	edit_this_article: 'Edit this Articles',
 	submit: 'Submit',
 	duplicate: 'Duplicate',
 	edit: 'Edit',

@@ -1,31 +1,50 @@
 <script lang="ts">
-	import type { PageServerData } from './$types';
-	import { enhance, type SubmitFunction } from '$app/forms';
+	import type { ActionData, PageServerData } from './$types';
+	import { applyAction, enhance, type SubmitFunction } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import LL from '$lib/i18n/i18n-svelte';
 
 	export let data: PageServerData;
+	export let form: ActionData;
+
 	const flashMessage: SubmitFunction = () => {
 		return ({ result }) => {
+			applyAction(result);
 			if (result.type === 'success') {
-				console.log(result.data?.message)
-				goto('/articles')
+				console.log(result.data?.message);
+				goto('/articles');
 			} else if (result.type === 'failure') {
-				console.log(result.data?.message)
+				console.log(result.data?.message);
 			}
 		};
 	};
 </script>
 
-<form method="POST" use:enhance={flashMessage} class="card bg-secondary p-8 space-y-8">
-	<h2 class="text-2xl">Edit this Article</h2>
-	<input id="title" name="title" class="input" placeholder="Title" value={data?.article?.title} />
-	<textarea
-		id="content"
-		name="content"
-		class="textarea"
-		placeholder="Content"
-		value={data?.article?.content}
-	/>
-	<button formaction="?/editArticle" type="submit" class="btn btn-secondary">{$LL.submit()}</button>
+<form method="POST" use:enhance={flashMessage} class="card bg-secondary/20 p-8 space-y-8">
+	<h2 class="text-2xl">{$LL.edit_this_article()}</h2>
+	<div>
+		<input
+			id="title"
+			name="title"
+			class="input w-full"
+			placeholder={$LL.attributes.title()}
+			class:input-error={form?.errors?.title}
+			value={data?.article?.title}
+		/>
+		{#if form?.errors?.title}<p class="text-error">{form?.errors?.title[0]}</p>{/if}
+	</div>
+	<div>
+		<textarea
+			id="content"
+			name="content"
+			class="textarea w-full"
+			placeholder={$LL.attributes.content()}
+			class:input-error={form?.errors?.content}
+			value={data?.article?.content}
+		/>
+		{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
+	</div>
+	<button formaction="?/editArticle" type="submit" class="btn btn-secondary">
+		{$LL.submit()}
+	</button>
 </form>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
 	import { fade } from 'svelte/transition';
-	import { enhance, type SubmitFunction } from '$app/forms';
+	import { applyAction, enhance, type SubmitFunction } from '$app/forms';
 	import LL from '$lib/i18n/i18n-svelte';
 
 	export let data: PageServerData;
@@ -9,6 +9,7 @@
 
 	const submitCreate: SubmitFunction = () => {
 		return ({ result, update }) => {
+			applyAction(result)
 			if (result.type === 'success') {
 				console.log(result.data?.message);
 				update();
@@ -47,7 +48,6 @@
 					placeholder={$LL.attributes.title()}
 					class="input w-full"
 					class:input-error={form?.errors?.title}
-					value={form?.data?.title ?? ''}
 				/>
 				{#if form?.errors?.title}<p class="text-error">{form?.errors?.title[0]}</p>{/if}
 			</div>
@@ -58,7 +58,6 @@
 					placeholder={$LL.attributes.content()}
 					class="textarea w-full"
 					class:textarea-error={form?.errors?.content}
-					value={`${form?.data?.content ?? ''}`}
 				/>
 				{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
 			</div>

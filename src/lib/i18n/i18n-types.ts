@@ -30,7 +30,7 @@ type RootTranslation = {
 	/**
 	 * E​d​i​t​ ​t​h​i​s​ ​A​r​t​i​c​l​e​s
 	 */
-	edit_this_articles: string
+	edit_this_article: string
 	/**
 	 * S​u​b​m​i​t
 	 */
@@ -86,7 +86,7 @@ export type TranslationFunctions = {
 	/**
 	 * Edit this Articles
 	 */
-	edit_this_articles: () => LocalizedString
+	edit_this_article: () => LocalizedString
 	/**
 	 * Submit
 	 */
