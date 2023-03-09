@@ -79,7 +79,7 @@
 
 				{#each drawers as link}
 					<li data-cy="drawer_{link}">
-						<a href={link} class="whitespace-pre-line p-2 pl-6 capitalize">
+						<a href="/{link}" class="whitespace-pre-line p-2 pl-6 capitalize">
 							{link}
 						</a>
 					</li>
