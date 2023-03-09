@@ -54,11 +54,8 @@ export const actions: Actions = {
 			await prisma.article.create({ data });
 		} catch (error) {
 			if (error instanceof ZodError) {
-				const { fieldErrors } = error.flatten();
-				return {
-					data: formData,
-					errors: fieldErrors
-				};
+				const { fieldErrors: errors } = error.flatten();
+				return fail(400, { errors });
 			}
 			return fail(500, { message: error });
 		}

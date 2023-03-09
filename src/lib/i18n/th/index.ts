@@ -5,7 +5,7 @@ const th: Translation = {
 	hi: 'หวัดดี {name}! โปรดให้ดาวถ้าคุณชื่นชอบโปรเจคนี้: https://github.com/ivanhofer/typesafe-i18n',
 	write_something: 'เขียนอะไรสักหน่อยสิ!',
 	articles: 'บทความ',
-	edit_this_articles: 'แก้ไขหัวข้อ',
+	edit_this_article: 'แก้ไขหัวข้อ',
 	submit: 'ยืนยัน',
 	duplicate: 'ทำซ้ำ',
 	edit: 'แก้ไข',
