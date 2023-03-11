@@ -47,6 +47,30 @@ type RootTranslation = {
 	 * D​e​l​e​t​e
 	 */
 	'delete': string
+	/**
+	 * S​i​g​n​ ​i​n
+	 */
+	sign_in: string
+	/**
+	 * R​e​g​i​s​t​e​r
+	 */
+	register: string
+	/**
+	 * N​a​m​e
+	 */
+	name: string
+	/**
+	 * U​s​e​r​n​a​m​e
+	 */
+	username: string
+	/**
+	 * P​a​s​s​w​o​r​d
+	 */
+	password: string
+	/**
+	 * C​r​e​a​t​e​ ​n​e​w​ ​a​c​c​o​u​n​t
+	 */
+	create_new_account: string
 	attributes: {
 		/**
 		 * T​i​t​l​e
@@ -103,6 +127,30 @@ export type TranslationFunctions = {
 	 * Delete
 	 */
 	'delete': () => LocalizedString
+	/**
+	 * Sign in
+	 */
+	sign_in: () => LocalizedString
+	/**
+	 * Register
+	 */
+	register: () => LocalizedString
+	/**
+	 * Name
+	 */
+	name: () => LocalizedString
+	/**
+	 * Username
+	 */
+	username: () => LocalizedString
+	/**
+	 * Password
+	 */
+	password: () => LocalizedString
+	/**
+	 * Create new account
+	 */
+	create_new_account: () => LocalizedString
 	attributes: {
 		/**
 		 * Title

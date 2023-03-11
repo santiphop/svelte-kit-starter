@@ -10,6 +10,12 @@ const en: BaseTranslation = {
 	duplicate: 'Duplicate',
 	edit: 'Edit',
 	delete: 'Delete',
+	sign_in: 'Sign in',
+	register: 'Register',
+	name: 'Name',
+	username: 'Username',
+	password: 'Password',
+	create_new_account: 'Create new account',
 	attributes: {
 		title: 'Title',
 		content: 'Content'

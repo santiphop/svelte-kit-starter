@@ -3,7 +3,8 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma';
 import { z, ZodError } from 'zod';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ parent }) => {
+	await parent();
 	const articles = await prisma.article.findMany({ orderBy: { createdAt: 'desc' } });
 
 	return {

@@ -3,11 +3,8 @@ import { prisma } from '$lib/server/prisma';
 import { error, fail } from '@sveltejs/kit';
 import { z, ZodError } from 'zod';
 
-export const load: PageServerLoad = async ({ params, locals: { validateUser } }) => {
-	const { user, session } = await validateUser();
-	if (!(user && session)) {
-		throw error(401, 'Unauthorized');
-	}
+export const load: PageServerLoad = async ({ parent, params }) => {
+	const { user } = await parent();
 
 	const id = params.articleId;
 
