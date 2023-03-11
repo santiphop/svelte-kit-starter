@@ -1,8 +1,10 @@
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+import { handleHooks } from '@lucia-auth/sveltekit';
 import type { BaseLocale, Locales } from '$lib/i18n/i18n-types';
 import { i18n } from '$lib/i18n/i18n-util';
 import { loadAllLocales } from '$lib/i18n/i18n-util.sync';
+import { auth } from '$lib/server/lucia';
 
 export type Theme = 'light' | 'dark';
 const DEFAULT_THEME: Theme = 'light';
@@ -54,4 +56,4 @@ export const handleTheme: Handle = async ({ event, resolve }) => {
 	});
 };
 
-export const handle: Handle = sequence(handleLocale, handleTheme);
+export const handle: Handle = sequence(handleHooks(auth), handleLocale, handleTheme);

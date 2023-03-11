@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma';
-import { fail } from '@sveltejs/kit';
 import { z, ZodError } from 'zod';
 
 export const load: PageServerLoad = async () => {
@@ -12,7 +12,12 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	duplicateArticle: async ({ url }) => {
+	duplicateArticle: async ({ url, locals: { validateUser } }) => {
+		const { user, session } = await validateUser();
+		if (!(user && session)) {
+			throw redirect(302, '/');
+		}
+
 		const title = url.searchParams.get('title');
 		const content = url.searchParams.get('content');
 
@@ -22,7 +27,8 @@ export const actions: Actions = {
 			await prisma.article.create({
 				data: {
 					title,
-					content
+					content,
+					userId: user.userId
 				}
 			});
 		} catch (error) {
@@ -35,7 +41,12 @@ export const actions: Actions = {
 			message: 'Duplicate article success!'
 		};
 	},
-	createArticle: async ({ request, locals: { $LL } }) => {
+	createArticle: async ({ request, locals: { $LL, validateUser } }) => {
+		const { user, session } = await validateUser();
+		if (!(user && session)) {
+			throw redirect(302, '/');
+		}
+
 		const articleSchema = z.object({
 			title: z
 				.string()
@@ -51,7 +62,12 @@ export const actions: Actions = {
 
 		try {
 			const data = articleSchema.parse(formData);
-			await prisma.article.create({ data });
+			await prisma.article.create({
+				data: {
+					...data,
+					userId: user.userId
+				}
+			});
 		} catch (error) {
 			if (error instanceof ZodError) {
 				const { fieldErrors: errors } = error.flatten();
@@ -65,11 +81,24 @@ export const actions: Actions = {
 			message: 'Create article success!'
 		};
 	},
-	deleteArticle: async ({ url }) => {
+	deleteArticle: async ({ url, locals: { validateUser } }) => {
+		const { user, session } = await validateUser();
+		if (!(user && session)) {
+			throw redirect(302, '/');
+		}
+
 		const id = url.searchParams.get('id');
 		if (!id) return fail(404, { message: 'no ID sent.' });
 
 		try {
+			const article = await prisma.article.findUniqueOrThrow({
+				where: { id: Number(id) }
+			});
+
+			if (article.userId !== user.userId) {
+				throw error(403, 'You do not own this article');
+			}
+
 			await prisma.article.delete({
 				where: { id: Number(id) }
 			});
