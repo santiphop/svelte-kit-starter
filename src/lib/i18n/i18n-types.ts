@@ -71,6 +71,10 @@ type RootTranslation = {
 	 * C​r​e​a​t​e​ ​n​e​w​ ​a​c​c​o​u​n​t
 	 */
 	create_new_account: string
+	/**
+	 * A​l​r​e​a​d​y​ ​h​a​v​e​ ​a​n​ ​a​c​c​o​u​n​t​?
+	 */
+	already_have_an_account: string
 	attributes: {
 		/**
 		 * T​i​t​l​e
@@ -151,6 +155,10 @@ export type TranslationFunctions = {
 	 * Create new account
 	 */
 	create_new_account: () => LocalizedString
+	/**
+	 * Already have an account?
+	 */
+	already_have_an_account: () => LocalizedString
 	attributes: {
 		/**
 		 * Title

@@ -16,6 +16,7 @@ const th: Translation = {
 	username: 'ชื่อผู้ใช้',
 	password: 'รหัสผ่าน',
 	create_new_account: 'สร้างบัญชีใหม่',
+	already_have_an_account: 'มีบัญชีแล้ว?',
 	attributes: {
 		title: 'หัวข้อ',
 		content: 'เนื้อหา'

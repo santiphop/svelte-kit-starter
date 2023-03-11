@@ -22,7 +22,7 @@ export const actions: Actions = {
 			locals.setSession(session);
 		} catch (error) {
 			console.error(error);
-			return fail(400, { message: 'could not login user' });
+			return fail(400, { message: 'Invalid username or password' });
 		}
 
 		throw redirect(302, '/');

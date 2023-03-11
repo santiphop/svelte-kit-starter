@@ -16,6 +16,7 @@ const en: BaseTranslation = {
 	username: 'Username',
 	password: 'Password',
 	create_new_account: 'Create new account',
+	already_have_an_account: 'Already have an account?',
 	attributes: {
 		title: 'Title',
 		content: 'Content'

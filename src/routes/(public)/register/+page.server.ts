@@ -2,9 +2,10 @@ import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import { z, ZodError } from 'zod';
 import { auth } from '$lib/server/lucia';
+import { prisma } from '$lib/server/prisma';
 
 export const load: PageServerLoad = async ({ parent }) => {
-	await parent()
+	await parent();
 };
 
 export const actions: Actions = {
@@ -18,6 +19,14 @@ export const actions: Actions = {
 
 		try {
 			const { name, username, password } = registerSchema.parse(formData);
+
+			const user = await prisma.user.findFirst({
+				where: { username }
+			});
+			if (user) {
+				return fail(400, { message: 'Username already exists.' });
+			}
+
 			await auth.createUser({
 				key: {
 					providerId: 'username',
