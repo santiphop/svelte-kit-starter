@@ -1,8 +1,9 @@
 <script lang="ts">
-	import ThemeSwitcher from './ThemeSwitcher.svelte'
-	import LocaleSwitcher from './LocaleSwitcher.svelte'
+	import ThemeSwitcher from './ThemeSwitcher.svelte';
+	import LocaleSwitcher from './LocaleSwitcher.svelte';
+	import { page } from '$app/stores';
 
-	let drawers = ['articles', 'link1', 'link2', 'link3', 'link4', 'link5']
+	let drawers = ['articles', 'link1', 'link2', 'link3', 'link4', 'link5'];
 </script>
 
 <div class="drawer drawer-mobile">
@@ -33,36 +34,45 @@
 			<div class="flex-none">
 				<ThemeSwitcher />
 				<LocaleSwitcher />
-				<div class="dropdown-hover dropdown-end dropdown">
-					<label
-						for="dropdown-0"
-						class="btn btn-ghost no-animation m-1 cursor-default gap-4 text-lg text-base-100"
-						data-cy="profile_dropdown"
-					>
-						<span class="max-lg:hidden normal-case">your name</span>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-6 h-6"
+				{#if $page.data.user}
+					<div class="dropdown-hover dropdown-end dropdown">
+						<label
+							for="dropdown-0"
+							class="btn btn-ghost no-animation m-1 cursor-default gap-4 text-lg text-base-100"
+							data-cy="profile_dropdown"
 						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-							/>
-						</svg>
-					</label>
-					<ul
-						id="dropdown-0"
-						class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow-lg"
-					>
-						<li data-cy="profile"><a href="/profile">{'profile'}</a></li>
-						<li data-cy="pdpa"><a href="/signout">{'sign_out'}</a></li>
-					</ul>
-				</div>
+							<span class="max-lg:hidden normal-case">{$page.data.user.name}</span>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-6 h-6"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+								/>
+							</svg>
+						</label>
+						<form method="POST">
+							<ul
+								id="dropdown-0"
+								class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow-lg"
+							>
+								<li data-cy="profile"><a href="/profile">{'profile'}</a></li>
+								<li data-cy="pdpa"><button formaction="/sign_out">{'Sign out'}</button></li>
+							</ul>
+						</form>
+					</div>
+				{:else}
+					<div class="flex gap-2">
+						<a class="btn btn-ghost" href="/sign_in">Sign in</a>
+						<a class="btn btn-ghost" href="/register">Register</a>
+					</div>
+				{/if}
 			</div>
 		</div>
 		<!-- Slot -->
@@ -76,7 +86,6 @@
 			<!-- Sidebar content here -->
 			<a href="/" class="mx-6 mt-7 flex gap-2">Logo (Homepage)</a>
 			<div class="mt-10">
-
 				{#each drawers as link}
 					<li data-cy="drawer_{link}">
 						<a href="/{link}" class="whitespace-pre-line p-2 pl-6 capitalize">

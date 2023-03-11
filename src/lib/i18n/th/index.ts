@@ -10,6 +10,13 @@ const th: Translation = {
 	duplicate: 'ทำซ้ำ',
 	edit: 'แก้ไข',
 	delete: 'ลบ',
+	sign_in: 'เข้าสู่ระบบ',
+	register: 'สมัครสมาชิก',
+	name: 'ชื่อ',
+	username: 'ชื่อผู้ใช้',
+	password: 'รหัสผ่าน',
+	create_new_account: 'สร้างบัญชีใหม่',
+	already_have_an_account: 'มีบัญชีแล้ว?',
 	attributes: {
 		title: 'หัวข้อ',
 		content: 'เนื้อหา'

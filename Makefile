@@ -8,7 +8,7 @@ seed:
 	npx prisma db seed
 
 reset:
-	npx prisma migrate reset
+	npx prisma migrate reset --force
 
 migrate:
 	npx prisma migrate dev

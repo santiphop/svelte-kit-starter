@@ -3,15 +3,21 @@ import { prisma } from '$lib/server/prisma';
 import { error, fail } from '@sveltejs/kit';
 import { z, ZodError } from 'zod';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ parent, params }) => {
+	const { user } = await parent();
+
 	const id = params.articleId;
 
-	const article = prisma.article.findUnique({
+	const article = await prisma.article.findUnique({
 		where: { id: Number(id) }
 	});
 
 	if (!article) {
 		throw error(404, 'Article not found');
+	}
+
+	if (article.userId !== user.userId) {
+		throw error(403, 'You do not own this article.');
 	}
 
 	return {
@@ -20,7 +26,12 @@ export const load: PageServerLoad = async ({ params }) => {
 };
 
 export const actions: Actions = {
-	editArticle: async ({ request, params, locals: { $LL } }) => {
+	editArticle: async ({ request, params, locals: { $LL, validateUser } }) => {
+		const { user, session } = await validateUser();
+		if (!(user && session)) {
+			throw error(401, 'Unauthorized');
+		}
+
 		const articleSchema = z.object({
 			title: z
 				.string()
@@ -35,6 +46,13 @@ export const actions: Actions = {
 		const formData = Object.fromEntries(await request.formData());
 
 		try {
+			const article = await prisma.article.findUniqueOrThrow({
+				where: { id: Number(params.articleId) }
+			});
+			if (article.userId !== user.userId) {
+				throw error(403, 'You do not have authority to edit this article.');
+			}
+
 			const data = articleSchema.parse(formData);
 			await prisma.article.update({
 				where: { id: Number(params.articleId) },
