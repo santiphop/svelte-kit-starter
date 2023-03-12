@@ -5,7 +5,7 @@ import { z, ZodError } from 'zod';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
-	const articles = await prisma.article.findMany({ orderBy: { createdAt: 'desc' } });
+	const articles = await prisma.article.findMany({ orderBy: { created_at: 'desc' } });
 
 	return {
 		articles

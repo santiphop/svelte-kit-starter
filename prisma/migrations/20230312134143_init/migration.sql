@@ -33,7 +33,7 @@ CREATE TABLE "Article" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "content" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Article_pkey" PRIMARY KEY ("id")

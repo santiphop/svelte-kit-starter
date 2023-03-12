@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator erd {
+  provider = "prisma-erd-generator-markdown"
+  output   = "./ERD.md"
+}
+
 model User {
   id       String    @id @unique
   name     String
@@ -47,10 +52,10 @@ model Key {
 }
 
 model Article {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  createdAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id])
-  userId    String
+  id         Int      @id @default(autoincrement())
+  title      String
+  content    String?
+  created_at DateTime @default(now())
+  User       User     @relation(fields: [userId], references: [id])
+  userId     String
 }
