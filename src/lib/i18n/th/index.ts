@@ -2,7 +2,7 @@ import type { Translation } from '../i18n-types';
 
 const th: Translation = {
 	// this is an example Translation, just rename or delete this folder if you want
-	hi: 'หวัดดี {name}! โปรดให้ดาวถ้าคุณชื่นชอบโปรเจคนี้: https://github.com/ivanhofer/typesafe-i18n',
+	hi: 'หวัดดี {name}! โปรดให้ดาวถ้าคุณชื่นชอบโปรเจคนี้: https://github.com/santiphop/svelte-kit-starter',
 	write_something: 'เขียนอะไรสักหน่อยสิ!',
 	articles: 'บทความ',
 	edit_this_article: 'แก้ไขหัวข้อ',

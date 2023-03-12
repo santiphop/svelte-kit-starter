@@ -13,35 +13,6 @@ export const load: PageServerLoad = async ({ parent }) => {
 };
 
 export const actions: Actions = {
-	duplicateArticle: async ({ url, locals: { validateUser } }) => {
-		const { user, session } = await validateUser();
-		if (!(user && session)) {
-			throw redirect(302, '/');
-		}
-
-		const title = url.searchParams.get('title');
-		const content = url.searchParams.get('content');
-
-		if (!title) return fail(400, { message: 'Title is required.' });
-
-		try {
-			await prisma.article.create({
-				data: {
-					title,
-					content,
-					userId: user.userId
-				}
-			});
-		} catch (error) {
-			console.error(error);
-			return fail(500, { message: 'Could not Duplicate the article.' });
-		}
-
-		return {
-			status: 201,
-			message: 'Duplicate article success!'
-		};
-	},
 	createArticle: async ({ request, locals: { $LL, validateUser } }) => {
 		const { user, session } = await validateUser();
 		if (!(user && session)) {

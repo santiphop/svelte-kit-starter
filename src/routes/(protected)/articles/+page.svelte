@@ -35,53 +35,45 @@
 <div class="card bg-blue-200" in:fade>
 	<div class="card-body space-y-8">
 		<h2 class="card-title">{$LL.articles()}</h2>
-		{#if data.user}
-			<form
-				method="POST"
-				action="?/createArticle"
-				use:enhance={submitCreate}
-				class="flex flex-col gap-2 w-fit"
-			>
-				{$LL.write_something()}
-				<div>
-					<input
-						id="title"
-						name="title"
-						placeholder={$LL.attributes.title()}
-						class="input w-full"
-						class:input-error={form?.errors?.title}
-					/>
-					{#if form?.errors?.title}<p class="text-error">{form?.errors?.title[0]}</p>{/if}
-				</div>
-				<div>
-					<textarea
-						id="content"
-						name="content"
-						placeholder={$LL.attributes.content()}
-						class="textarea w-full"
-						class:textarea-error={form?.errors?.content}
-					/>
-					{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
-				</div>
-				<button type="submit" class="btn btn-secondary">{$LL.submit()}</button>
-			</form>
-		{/if}
+		<form
+			method="POST"
+			action="?/createArticle"
+			use:enhance={submitCreate}
+			class="flex flex-col gap-2 w-fit"
+		>
+			{$LL.write_something()}
+			<div>
+				<input
+					id="title"
+					name="title"
+					placeholder={$LL.attributes.title()}
+					class="input w-full"
+					class:input-error={form?.errors?.title}
+				/>
+				{#if form?.errors?.title}<p class="text-error">{form?.errors?.title[0]}</p>{/if}
+			</div>
+			<div>
+				<textarea
+					id="content"
+					name="content"
+					placeholder={$LL.attributes.content()}
+					class="textarea w-full"
+					class:textarea-error={form?.errors?.content}
+				/>
+				{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
+			</div>
+			<button type="submit" class="btn btn-secondary">{$LL.submit()}</button>
+		</form>
 		{#each data.articles as article}
 			<div class="card card-body bg-accent text-accent-content">
-				<form
-					method="POST"
-					action="?/deleteArticle&id={article.id}"
-					use:enhance={flashMessage}
-					class="flex justify-between"
-				>
+				<form method="POST" use:enhance={flashMessage} class="flex justify-between">
 					<h3 class="text-2xl">{article.title}<span class="text-sm">(id: {article.id})</span></h3>
 					{#if article.userId === data.user?.userId}
 						<div>
 							<div class="tooltip" data-tip={$LL.duplicate()}>
-								<button
-									formaction="?/duplicateArticle&title={article.title}&content={article.content}"
-									class="btn btn-circle btn-ghost"
-								>
+								<input class="hidden" name="title" value={article.title} />
+								<input class="hidden" name="content" value={article.content} />
+								<button formaction="?/createArticle" class="btn btn-circle btn-ghost">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
@@ -117,7 +109,10 @@
 								</a>
 							</div>
 							<div class="tooltip" data-tip={$LL.delete()}>
-								<button type="submit" class="btn btn-circle btn-ghost">
+								<button
+									formaction="?/deleteArticle&id={article.id}"
+									class="btn btn-circle btn-ghost"
+								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"

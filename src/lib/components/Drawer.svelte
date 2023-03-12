@@ -6,7 +6,7 @@
 	let drawers = ['articles', 'link1', 'link2', 'link3', 'link4', 'link5'];
 </script>
 
-<div class="drawer drawer-mobile">
+<div class="drawer drawer-mobile max-h-screen">
 	<input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content">
 		<!-- Page content here -->
@@ -62,8 +62,8 @@
 								id="dropdown-0"
 								class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow-lg"
 							>
-								<li data-cy="profile"><a href="/profile">{'profile'}</a></li>
-								<li data-cy="pdpa"><button formaction="/sign_out">{'Sign out'}</button></li>
+								<li data-cy="profile"><a href="/profile">Profile</a></li>
+								<li data-cy="pdpa"><button formaction="/sign_out">Sign out</button></li>
 							</ul>
 						</form>
 					</div>
@@ -76,7 +76,7 @@
 			</div>
 		</div>
 		<!-- Slot -->
-		<div class="m-5 lg:m-12">
+		<div class="p-5 lg:p-12">
 			<slot />
 		</div>
 	</div>

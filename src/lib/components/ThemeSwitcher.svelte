@@ -12,7 +12,7 @@
 	{#if $page.data.theme === 'light'}
 		<button
 			formaction="/?/setTheme&theme=dark&redirectTo={$page.url.pathname}"
-			class="btn btn-ghost btn-circle text-primary"
+			class="btn btn-ghost btn-circle"
 			data-cy="dark"
 		>
 			<svg
@@ -33,7 +33,7 @@
 	{:else}
 		<button
 			formaction="/?/setTheme&theme=light&redirectTo={$page.url.pathname}"
-			class="btn btn-ghost btn-circle text-primary"
+			class="btn btn-ghost btn-circle"
 			data-cy="dark"
 		>
 			<svg
