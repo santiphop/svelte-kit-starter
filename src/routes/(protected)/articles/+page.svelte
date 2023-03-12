@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import { applyAction, enhance, type SubmitFunction } from '$app/forms';
 	import LL from '$lib/i18n/i18n-svelte';
+	import toast from 'svelte-french-toast';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -12,21 +13,24 @@
 			applyAction(result);
 			switch (result.type) {
 				case 'success':
-					console.log(result.data?.message);
-					return update();
+					toast.success(result.data?.message);
+					update();
+					break;
 				case 'failure':
-					return console.log(result.data?.message);
+					toast.error(result.data?.message);
+					break;
 			}
 		};
 	};
 
 	const flashMessage: SubmitFunction = () => {
 		return ({ result, update }) => {
-			if (result.type === 'success') {
-				console.log(result.data?.message);
-				update();
-			} else if (result.type === 'failure') {
-				console.log(result.data?.message);
+			switch (result.type) {
+				case 'success':
+					toast.success(result.data?.message);
+					return update();
+				case 'failure':
+					return toast.error(result.data?.message);
 			}
 		};
 	};

@@ -3,6 +3,7 @@
 	import { applyAction, enhance, type SubmitFunction } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import LL from '$lib/i18n/i18n-svelte';
+	import toast from 'svelte-french-toast';
 
 	export let data: PageServerData;
 	export let form: ActionData;
@@ -10,11 +11,14 @@
 	const flashMessage: SubmitFunction = () => {
 		return ({ result }) => {
 			applyAction(result);
-			if (result.type === 'success') {
-				console.log(result.data?.message);
-				goto('/articles');
-			} else if (result.type === 'failure') {
-				console.log(result.data?.message);
+			switch (result.type) {
+				case 'success':
+					toast.success(result.data?.message);
+					goto('/articles');
+					break;
+				case 'failure':
+					toast.error(result.data?.message);
+					break;
 			}
 		};
 	};
