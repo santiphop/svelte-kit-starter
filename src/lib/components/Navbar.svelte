@@ -5,7 +5,7 @@
 
 <div class="navbar bg-secondary/50">
 	<div class="flex-1">
-		<p class="btn btn-ghost text-xl normal-case">SvelteKit Starter Pack</p>
+		<p class="btn-ghost btn text-xl normal-case">SvelteKit Starter Pack</p>
 	</div>
 	<div class="flex-none">
 		<ThemeSwitcher />

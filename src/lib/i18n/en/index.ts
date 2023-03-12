@@ -1,4 +1,4 @@
-import type { BaseTranslation } from '../i18n-types'
+import type { BaseTranslation } from '../i18n-types';
 
 const en: BaseTranslation = {
 	// TODO: your translations go here
@@ -27,4 +27,4 @@ const en: BaseTranslation = {
 	}
 };
 
-export default en
+export default en;

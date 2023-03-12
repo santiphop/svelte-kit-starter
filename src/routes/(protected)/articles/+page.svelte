@@ -35,12 +35,7 @@
 <div class="card bg-blue-200" in:fade>
 	<div class="card-body space-y-8">
 		<h2 class="card-title">{$LL.articles()}</h2>
-		<form
-			method="POST"
-			action="?/createArticle"
-			use:enhance={submitCreate}
-			class="flex flex-col gap-2 w-fit"
-		>
+		<form method="POST" action="?/createArticle" use:enhance={submitCreate} class="flex w-fit flex-col gap-2">
 			{$LL.write_something()}
 			<div>
 				<input
@@ -62,7 +57,7 @@
 				/>
 				{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
 			</div>
-			<button type="submit" class="btn btn-secondary">{$LL.submit()}</button>
+			<button class="btn-secondary btn">{$LL.submit()}</button>
 		</form>
 		{#each data.articles as article}
 			<div class="card card-body bg-accent text-accent-content">
@@ -73,14 +68,14 @@
 							<div class="tooltip" data-tip={$LL.duplicate()}>
 								<input class="hidden" name="title" value={article.title} />
 								<input class="hidden" name="content" value={article.content} />
-								<button formaction="?/createArticle" class="btn btn-circle btn-ghost">
+								<button formaction="?/createArticle" class="btn-ghost btn-circle btn">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke-width="1.5"
 										stroke="currentColor"
-										class="w-6 h-6"
+										class="h-6 w-6"
 									>
 										<path
 											stroke-linecap="round"
@@ -91,14 +86,14 @@
 								</button>
 							</div>
 							<div class="tooltip" data-tip={$LL.edit()}>
-								<a href="./articles/{article.id}" class="btn btn-circle btn-ghost">
+								<a href="/articles/{article.id}" class="btn-ghost btn-circle btn">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke-width="1.5"
 										stroke="currentColor"
-										class="w-6 h-6"
+										class="h-6 w-6"
 									>
 										<path
 											stroke-linecap="round"
@@ -109,17 +104,14 @@
 								</a>
 							</div>
 							<div class="tooltip" data-tip={$LL.delete()}>
-								<button
-									formaction="?/deleteArticle&id={article.id}"
-									class="btn btn-circle btn-ghost"
-								>
+								<button formaction="?/deleteArticle&id={article.id}" class="btn-ghost btn-circle btn">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke-width="1.5"
 										stroke="currentColor"
-										class="w-6 h-6 stroke-error"
+										class="h-6 w-6 stroke-error"
 									>
 										<path
 											stroke-linecap="round"

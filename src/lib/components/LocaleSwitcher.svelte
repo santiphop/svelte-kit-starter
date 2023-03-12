@@ -9,15 +9,14 @@
 	};
 </script>
 
-<form method="POST" use:enhance={submitUpdateLocale} class="dropdown dropdown-end dropdown-hover">
-	<label for="dropdown-1" class="btn btn-ghost m-1">{$page.data.locale}</label>
-	<ul id="dropdown-1" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36">
+<form method="POST" use:enhance={submitUpdateLocale} class="dropdown-hover dropdown-end dropdown">
+	<label for="dropdown-1" class="btn-ghost btn m-1">{$page.data.locale}</label>
+	<ul id="dropdown-1" class="dropdown-content menu rounded-box w-36 bg-base-100 p-2 shadow">
 		{#each locales as locale}
 			<li>
-				<button
-					formaction="/?/setLocale&locale={locale}&redirectTo={$page.url.pathname}"
-					class="p-2 uppercase">{locale}</button
-				>
+				<button formaction="/?/setLocale&locale={locale}&redirectTo={$page.url.pathname}" class="p-2 uppercase">
+					{locale}
+				</button>
 			</li>
 		{/each}
 	</ul>

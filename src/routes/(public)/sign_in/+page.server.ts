@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { auth } from '$lib/server/lucia';
 
 export const load: PageServerLoad = async ({ parent }) => {
-	await parent()
+	await parent();
 };
 
 export const actions: Actions = {

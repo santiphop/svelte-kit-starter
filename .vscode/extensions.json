@@ -1,10 +1,10 @@
 {
-  "recommendations": [
-    "ms-azuretools.vscode-docker",
-    "dbaeumer.vscode-eslint",
-    "prisma.prisma",
-    "svelte.svelte-vscode",
-    "ardenivanov.svelte-intellisense",
-    "bradlc.vscode-tailwindcss"
-  ]
+	"recommendations": [
+		"ms-azuretools.vscode-docker",
+		"dbaeumer.vscode-eslint",
+		"prisma.prisma",
+		"svelte.svelte-vscode",
+		"ardenivanov.svelte-intellisense",
+		"bradlc.vscode-tailwindcss"
+	]
 }

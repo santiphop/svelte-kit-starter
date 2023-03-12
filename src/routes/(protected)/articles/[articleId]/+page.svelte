@@ -20,7 +20,7 @@
 	};
 </script>
 
-<form method="POST" use:enhance={flashMessage} class="card bg-secondary/20 p-8 space-y-8">
+<form method="POST" use:enhance={flashMessage} class="card space-y-8 bg-secondary/20 p-8">
 	<h2 class="text-2xl">{$LL.edit_this_article()}</h2>
 	<div>
 		<input
@@ -44,7 +44,7 @@
 		/>
 		{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
 	</div>
-	<button formaction="?/editArticle" type="submit" class="btn btn-secondary">
+	<button formaction="?/editArticle" type="submit" class="btn-secondary btn">
 		{$LL.submit()}
 	</button>
 </form>
