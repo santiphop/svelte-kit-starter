@@ -1,28 +1,52 @@
-# create-svelte
+# SvelteKit Starter
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+(Almost) Everything you need to build a Svelte project.
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
+## Starting a project
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
+# start docker
+make start
 
-# create a new project in my-app
-npm create svelte@latest my-app
+# run seed
+make seed
+
+# or drop all tables and run seed
+make reset
 ```
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've started docker and installed dependencies with `pnpm install`, start a development server:
 
 ```bash
-npm run dev
+# this will start local development server and prisma studio
+pnpm dev
+```
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+To visit local development server:
+http://localhost:5143
+
+To visit prisma studio server:
+http://localhost:5555
+
+If you want to edit database structure, edit `prisma/schema.prisma`, migrate new database:
+
+```bash
+make migrate # and name the migration file
+```
+
+Reload schema and generate ERD markdown,
+output file path `prisma/ERD.md`:
+
+```bash
+make generate
+```
+
+Format your code config with prettier in `.prettierrc`, run formatter:
+
+```bash
+pnpm format
 ```
 
 ## Building
@@ -30,9 +54,18 @@ npm run dev -- --open
 To create a production version of your app:
 
 ```bash
-npm run build
+pnpm build
+
+# preview the production build
+pnpm preview
 ```
 
-You can preview the production build with `npm run preview`.
+To visit local built server:
+http://localhost:4143
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+| Environment   | PORT |
+| ------------- | ---- |
+| local dev     | 5143 |
+| local build   | 4143 |
+| docker build  | 3000 |
+| prisma studio | 5555 |
