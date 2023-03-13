@@ -2,6 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma';
 import { z, ZodError } from 'zod';
+import { upload } from '$lib/server/s3';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
@@ -30,8 +31,13 @@ export const actions: Actions = {
 				.trim()
 		});
 
-		const formData = Object.fromEntries(await request.formData());
+		const form = await request.formData();
+		const formData = Object.fromEntries(form);
+		const file = form.get('image') as File
 
+		console.log(file instanceof Blob)
+		const location = await upload(file);
+		console.log(location)
 		try {
 			const data = articleSchema.parse(formData);
 			await prisma.article.create({

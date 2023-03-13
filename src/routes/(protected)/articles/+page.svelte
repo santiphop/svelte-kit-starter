@@ -8,13 +8,16 @@
 	export let data: PageData;
 	export let form: ActionData;
 
-	const submitCreate: SubmitFunction = () => {
+	const submitCreate: SubmitFunction = ({ data }) => {
+		const image = data.get('image') as File;
+		console.log(image);
+
 		return ({ result, update }) => {
 			applyAction(result);
 			switch (result.type) {
 				case 'success':
 					toast.success(result.data?.message);
-					update();
+					update({ reset: false });
 					break;
 				case 'failure':
 					toast.error(result.data?.message);
@@ -60,6 +63,9 @@
 					class:textarea-error={form?.errors?.content}
 				/>
 				{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
+			</div>
+			<div>
+				<input id="image" name="image" type="file" class="file-input" accept="image/*" />
 			</div>
 			<button class="btn-secondary btn">{$LL.submit()}</button>
 		</form>

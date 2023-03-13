@@ -4,6 +4,10 @@ start:
 stop:
 	docker compose down
 
+restart:
+	make stop
+	make start
+
 seed:
 	npx prisma db seed
 
