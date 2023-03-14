@@ -33,17 +33,17 @@ export const actions: Actions = {
 
 		const form = await request.formData();
 		const formData = Object.fromEntries(form);
-		const file = form.get('image') as File
+		const file = form.get('image') as File;
 
-		console.log(file instanceof Blob)
-		const location = await upload(file);
-		console.log(location)
+		const locationPath = await upload(file);
+		console.log(locationPath);
 		try {
 			const data = articleSchema.parse(formData);
 			await prisma.article.create({
 				data: {
 					...data,
-					userId: user.userId
+					userId: user.userId,
+					image: locationPath
 				}
 			});
 		} catch (error) {

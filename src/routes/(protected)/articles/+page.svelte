@@ -8,16 +8,13 @@
 	export let data: PageData;
 	export let form: ActionData;
 
-	const submitCreate: SubmitFunction = ({ data }) => {
-		const image = data.get('image') as File;
-		console.log(image);
-
+	const submitCreate: SubmitFunction = () => {
 		return ({ result, update }) => {
 			applyAction(result);
 			switch (result.type) {
 				case 'success':
 					toast.success(result.data?.message);
-					update({ reset: false });
+					update();
 					break;
 				case 'failure':
 					toast.error(result.data?.message);
@@ -135,6 +132,9 @@
 					{/if}
 				</form>
 				<p>{article.content}</p>
+				{#if article.image}
+					<p>image: {article.image}</p>
+				{/if}
 			</div>
 		{/each}
 	</div>

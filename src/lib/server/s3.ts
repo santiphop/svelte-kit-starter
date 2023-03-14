@@ -18,20 +18,20 @@ const s3 = new S3Client({
 	}
 });
 
-export async function upload({ name: filename }: File) {
-	console.log('config', s3.config)
-	// const target = { Bucket: 'svelte-kit-bucket', Key: uuidv4(), Body: stream };
+export async function upload(file: File) {
+	const locationPath = `${uuidv4()}-${file.name}`;
+
 	const command = new PutObjectCommand({
 		Bucket: STORAGE_BUCKET_NAME,
-		Key: `${uuidv4()}${filename}`,
-		Body: 'Hello S3!'
+		Key: locationPath,
+		Body: (await file.arrayBuffer()) as Uint8Array
 	});
 
 	try {
 		const response = await s3.send(command);
 		console.log(response);
-	} catch (err) {
-		console.error(err);
+		return locationPath;
+	} catch (error) {
+		console.error(error);
 	}
-
 }
