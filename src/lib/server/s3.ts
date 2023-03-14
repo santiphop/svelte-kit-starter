@@ -1,4 +1,5 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { v4 as uuidv4 } from 'uuid';
 import {
 	STORAGE_ENDPOINT,
@@ -17,6 +18,21 @@ const s3 = new S3Client({
 		secretAccessKey: STORAGE_SECRET_ACCESS_KEY
 	}
 });
+
+const ONE_HOUR = 60 * 60
+
+export async function getDownloadUrl(locationPath: string | null) {
+	if (!locationPath) return '';
+
+	const command = new GetObjectCommand({
+		Bucket: STORAGE_BUCKET_NAME,
+		Key: locationPath
+	});
+
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	return await getSignedUrl(s3, command, { expiresIn: ONE_HOUR });
+}
 
 export async function upload(file: File) {
 	const locationPath = `${uuidv4()}-${file.name}`;

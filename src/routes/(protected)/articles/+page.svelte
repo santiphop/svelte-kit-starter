@@ -134,6 +134,8 @@
 				<p>{article.content}</p>
 				{#if article.image}
 					<p>image: {article.image}</p>
+					<p>url: {article.url}</p>
+					<img src="{article.url}" alt={article.image} class="max-w-md" />
 				{/if}
 			</div>
 		{/each}

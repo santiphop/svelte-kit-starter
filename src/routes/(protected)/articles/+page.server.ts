@@ -2,14 +2,18 @@ import type { Actions, PageServerLoad } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma';
 import { z, ZodError } from 'zod';
-import { upload } from '$lib/server/s3';
+import { getDownloadUrl, upload } from '$lib/server/s3';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
 	const articles = await prisma.article.findMany({ orderBy: { created_at: 'desc' } });
 
+	const articleWithImages = await Promise.all(
+		articles.map(async (article) => ({ ...article, url: await getDownloadUrl(article.image) }))
+	);
+
 	return {
-		articles
+		articles: articleWithImages
 	};
 };
 
