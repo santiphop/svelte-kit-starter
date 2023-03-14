@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma';
 import { z, ZodError } from 'zod';
-import { getDownloadUrl, upload } from '$lib/server/s3';
+import { getDownloadUrl, remove, upload } from '$lib/server/s3';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
@@ -39,9 +39,8 @@ export const actions: Actions = {
 		const formData = Object.fromEntries(form);
 		const file = form.get('image') as File;
 
-		const locationPath = await upload(file);
-		console.log(locationPath);
 		try {
+			const locationPath = await upload(file);
 			const data = articleSchema.parse(formData);
 			await prisma.article.create({
 				data: {
@@ -84,6 +83,7 @@ export const actions: Actions = {
 			await prisma.article.delete({
 				where: { id: Number(id) }
 			});
+			await remove(article.image);
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: 'Could not delete the article.' });

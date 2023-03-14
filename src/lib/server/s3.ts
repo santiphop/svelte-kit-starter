@@ -1,4 +1,4 @@
-import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -19,7 +19,7 @@ const s3 = new S3Client({
 	}
 });
 
-const ONE_HOUR = 60 * 60
+const ONE_HOUR = 60 * 60;
 
 export async function getDownloadUrl(locationPath: string | null) {
 	if (!locationPath) return '';
@@ -47,6 +47,22 @@ export async function upload(file: File) {
 		const response = await s3.send(command);
 		console.log(response);
 		return locationPath;
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+export async function remove(locationPath: string | null) {
+	if (!locationPath) return '';
+
+	const command = new DeleteObjectCommand({
+		Bucket: STORAGE_BUCKET_NAME,
+		Key: locationPath
+	});
+
+	try {
+		const response = await s3.send(command);
+		console.log(response);
 	} catch (error) {
 		console.error(error);
 	}

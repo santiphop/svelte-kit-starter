@@ -35,7 +35,7 @@ services:
     ports:
       - $STORAGE_API_PORT:$STORAGE_API_PORT
       - $STORAGE_CONSOLE_PORT:$STORAGE_CONSOLE_PORT
-    command: ["server", "/data", "--address", ":$STORAGE_API_PORT", "--console-address", ":$STORAGE_CONSOLE_PORT"]
+    command: ['server', '/data', '--address', ':$STORAGE_API_PORT', '--console-address', ':$STORAGE_CONSOLE_PORT']
     environment:
       MINIO_ACCESS_KEY: $STORAGE_ACCESS_KEY_ID
       MINIO_SECRET_KEY: $STORAGE_SECRET_ACCESS_KEY
