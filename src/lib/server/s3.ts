@@ -1,6 +1,5 @@
 import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { v4 as uuidv4 } from 'uuid';
 import {
 	STORAGE_ENDPOINT,
 	STORAGE_REGION,
@@ -35,7 +34,7 @@ export async function getDownloadUrl(locationPath: string | null) {
 }
 
 export async function upload(file: File) {
-	const locationPath = `${uuidv4()}-${file.name}`;
+	const locationPath = `${Date.now()}-${file.name}`;
 
 	const command = new PutObjectCommand({
 		Bucket: STORAGE_BUCKET_NAME,
