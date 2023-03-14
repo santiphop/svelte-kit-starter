@@ -24,6 +24,7 @@ erDiagram
 		String content  "nullable"
 		DateTime created_at  "now()"
 		String userId FK
+		String image  "nullable"
 	}
 	session }o--|| user : user
 	key }o--|| user : user

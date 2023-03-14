@@ -61,6 +61,9 @@
 				/>
 				{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
 			</div>
+			<div>
+				<input id="image" name="image" type="file" class="file-input" accept="image/*" />
+			</div>
 			<button class="btn-secondary btn">{$LL.submit()}</button>
 		</form>
 		{#each data.articles as article}
@@ -129,6 +132,11 @@
 					{/if}
 				</form>
 				<p>{article.content}</p>
+				{#if article.image}
+					<p>image: {article.image}</p>
+					<p>url: {article.url}</p>
+					<img src={article.url} alt={article.image} class="max-w-md" />
+				{/if}
 			</div>
 		{/each}
 	</div>

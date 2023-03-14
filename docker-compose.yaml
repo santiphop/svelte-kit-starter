@@ -29,10 +29,36 @@ services:
     volumes:
       - .:/svelte-kit-app
 
+  svelte-kit-minio:
+    image: minio/minio:latest
+    container_name: svelte-kit-minio
+    ports:
+      - $STORAGE_API_PORT:$STORAGE_API_PORT
+      - $STORAGE_CONSOLE_PORT:$STORAGE_CONSOLE_PORT
+    command: ['server', '/data', '--address', ':$STORAGE_API_PORT', '--console-address', ':$STORAGE_CONSOLE_PORT']
+    environment:
+      MINIO_ACCESS_KEY: $STORAGE_ACCESS_KEY_ID
+      MINIO_SECRET_KEY: $STORAGE_SECRET_ACCESS_KEY
+      MINIO_DEFAULT_BUCKETS: $STORAGE_BUCKET_NAME
+    volumes:
+      - svelte-kit-object-store:/lib/minio
+    restart: always
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - svelte-kit-minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://svelte-kit-minio:${STORAGE_API_PORT} ${STORAGE_ACCESS_KEY_ID} ${STORAGE_SECRET_ACCESS_KEY};
+      /usr/bin/mc mb myminio/${STORAGE_BUCKET_NAME};
+      /usr/bin/mc policy set public myminio/${STORAGE_BUCKET_NAME};
+      exit 0;
+      "
+
 volumes:
   postgres-data:
     name: postgres-data
-  prisma-object-store:
+  svelte-kit-object-store:
 
 networks:
   default:

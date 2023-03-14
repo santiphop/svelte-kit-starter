@@ -2,13 +2,18 @@ import type { Actions, PageServerLoad } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma';
 import { z, ZodError } from 'zod';
+import { getDownloadUrl, remove, upload } from '$lib/server/s3';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
 	const articles = await prisma.article.findMany({ orderBy: { created_at: 'desc' } });
 
+	const articleWithImages = await Promise.all(
+		articles.map(async (article) => ({ ...article, url: await getDownloadUrl(article.image) }))
+	);
+
 	return {
-		articles
+		articles: articleWithImages
 	};
 };
 
@@ -30,14 +35,18 @@ export const actions: Actions = {
 				.trim()
 		});
 
-		const formData = Object.fromEntries(await request.formData());
+		const form = await request.formData();
+		const formData = Object.fromEntries(form);
+		const file = form.get('image') as File;
 
 		try {
+			const locationPath = await upload(file);
 			const data = articleSchema.parse(formData);
 			await prisma.article.create({
 				data: {
 					...data,
-					userId: user.userId
+					userId: user.userId,
+					image: locationPath
 				}
 			});
 		} catch (error) {
@@ -74,6 +83,7 @@ export const actions: Actions = {
 			await prisma.article.delete({
 				where: { id: Number(id) }
 			});
+			await remove(article.image);
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: 'Could not delete the article.' });
