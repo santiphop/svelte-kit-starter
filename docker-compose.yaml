@@ -25,7 +25,6 @@ services:
     restart: always
     ports:
       - $APP_PORT:$APP_PORT
-    env_file: ./environments/development
     volumes:
       - .:/svelte-kit-app
 
