@@ -17,7 +17,7 @@ seed:
 reset:
 	npx prisma migrate reset --force
 
-g-migration:
+migrate:
 	npx prisma migrate dev
 
 generate:
