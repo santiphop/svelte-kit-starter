@@ -1,5 +1,5 @@
 <script>
-	import Drawer from '$lib/components/Drawer.svelte';
+	import Drawer from '$lib/components/layouts/Drawer.svelte';
 </script>
 
 <Drawer>
