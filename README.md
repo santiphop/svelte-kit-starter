@@ -7,7 +7,7 @@
 Make sure you have your `.env` file setup.
 ```bash
 # copy from the example environment file
-cp .env.example .env
+cp environments/local.env .env
 ```
 
 Run Database and MinIO in **Docker** environment,
