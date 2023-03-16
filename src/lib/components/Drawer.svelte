@@ -2,6 +2,9 @@
 	import ThemeSwitcher from './ThemeSwitcher.svelte';
 	import LocaleSwitcher from './LocaleSwitcher.svelte';
 	import { page } from '$app/stores';
+	import Icon from '@iconify/svelte';
+	import menuOpen from '@iconify/icons-mdi/menu-open';
+	import chevronDown from '@iconify/icons-mdi/chevron-down';
 
 	let drawers = ['articles', 'link1', 'link2', 'link3', 'link4', 'link5'];
 </script>
@@ -14,16 +17,7 @@
 		<div class="navbar bg-secondary/50">
 			<div class="flex-1">
 				<label for="my-drawer-2" class="btn-ghost btn lg:hidden">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="h-6 w-6"
-					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
-					</svg>
+					<Icon icon={menuOpen} width="24" height="24" />
 				</label>
 				<a href="/" class="btn-ghost btn text-xl normal-case lg:hidden">SvelteKit Starter Pack</a>
 			</div>
@@ -38,16 +32,7 @@
 							data-cy="profile_dropdown"
 						>
 							<span class="normal-case max-lg:hidden">{$page.data.user.name}</span>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="h-6 w-6"
-							>
-								<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-							</svg>
+							<Icon icon={chevronDown} width="24" height="24" />
 						</label>
 						<form method="POST">
 							<ul id="dropdown-0" class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow-lg">

@@ -9,8 +9,8 @@ const extension = (prisma: PrismaClient) => ({
 		);
 	},
 	async anotherExtensionQuery() {
-		return {}
-	},
+		return {};
+	}
 });
 
 export default extension;

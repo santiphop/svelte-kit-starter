@@ -5,13 +5,15 @@
 ## Starting a project
 
 Make sure you have your `.env` file setup.
+
 ```bash
 # copy from the example environment file
 cp environments/local.env .env
 ```
 
 Run Database and MinIO in **Docker** environment,
-then apply migrations to sync Database with your *schema*
+then apply migrations to sync Database with your _schema_
+
 ```bash
 make start
 
@@ -21,6 +23,7 @@ make migrate
 ## Developing
 
 (Optional) Before start develop the app:
+
 ```bash
 # create seed data
 make seed
@@ -31,6 +34,7 @@ make reset
 
 Once you've started docker and installed dependencies with [pnpm](https://pnpm.io/installation).
 Run command `pnpm install`, then start a development server:
+
 ```bash
 # this will start local development server and prisma studio
 pnpm dev
@@ -46,23 +50,28 @@ To visit prisma studio server:
 
 If you want to edit database structure, edit `prisma/schema.prisma`,
 generate new migration file:
+
 ```bash
 make migrate
 # Enter a name for the new migration: <migration_name>
 ```
 
-Generate *Prisma Client* and generate *ER Diagram* into `prisma/ERD.md`:
+Generate _Prisma Client_ and generate _ER Diagram_ into `prisma/ERD.md`:
+
 ```bash
 make generate
 ```
 
 ### Formatter & Linter
+
 Format your code config with prettier in `.prettierrc`, run formatter:
+
 ```bash
 pnpm format
 ```
 
 Lint your code config with eslint in `.eslintrc.cjs`, run linter:
+
 ```bash
 pnpm lint
 ```
@@ -70,6 +79,7 @@ pnpm lint
 ## Building
 
 To create a production version of your app:
+
 ```bash
 pnpm build
 
@@ -83,11 +93,13 @@ To visit local built server:
 ### Docker
 
 To create a production version of your app in **Docker** environment:
+
 ```bash
 make docker-app
 ```
 
 ## Ports
+
 | Environment   | Port |
 | ------------- | ---- |
 | docker build  | 3000 |
