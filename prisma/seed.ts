@@ -11,13 +11,14 @@ export const auth = lucia({
 	transformUserData: (userData: User) => ({
 		userId: userData.id,
 		username: userData.username,
-		name: userData.name
+		name: userData.name,
+		password: 'testtest',
 	})
 });
 
 async function main() {
-	const [name, username, password] = ['Tester1', 'tester1', 'password'];
-	const user1 = await auth.createUser({
+	const [name, username, password] = ['Tester', 'tester', 'testtest'];
+	const user = await auth.createUser({
 		key: {
 			providerId: 'username',
 			providerUserId: username,
@@ -34,12 +35,12 @@ async function main() {
 		data: {
 			title: "Santiphop's Article",
 			content: 'just a sample content',
-			userId: user1.userId
+			userId: user.userId
 		}
 	});
 	console.log('Create article success!');
 
-	console.log({ user1, article1 });
+	console.log({ user, article1 });
 }
 
 main()
