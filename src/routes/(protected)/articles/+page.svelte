@@ -40,7 +40,7 @@
 	};
 </script>
 
-<div class="card bg-blue-200" in:fade>
+<div class="card bg-primary/30 shadow-lg" in:fade>
 	<div class="card-body space-y-8">
 		<h2 class="card-title">{$LL.articles()}</h2>
 		<form method="POST" action="?/createArticle" use:enhance={submitCreate} class="flex w-fit flex-col gap-2">
@@ -71,7 +71,7 @@
 			<button class="btn-secondary btn">{$LL.submit()}</button>
 		</form>
 		{#each data.articles as article}
-			<div class="card card-body bg-accent text-accent-content">
+			<div class="card card-body bg-neutral text-neutral-content">
 				<form method="POST" use:enhance={flashMessage} class="flex justify-between">
 					<h3 class="text-2xl">{article.title}<span class="text-sm">(id: {article.id})</span></h3>
 					{#if article.userId === data.user?.userId}

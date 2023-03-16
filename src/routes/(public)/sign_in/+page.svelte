@@ -7,9 +7,9 @@
 	export let form: ActionData;
 </script>
 
-<form method="POST" use:enhance class="card gap-2 bg-pink-200 p-8">
+<form method="POST" use:enhance class="card gap-2 p-8 shadow-2xl">
 	{$LL.sign_in()}
-	<input class="input" name="username" placeholder={$LL.username()} />
+	<input class="input-bordered input" name="username" placeholder={$LL.username()} />
 	<PasswordInput placeholder={$LL.password()} />
 	<button class="btn-primary btn">{$LL.sign_in()}</button>
 	{#if form?.message}<p class="text-error">{form?.message}</p>{/if}

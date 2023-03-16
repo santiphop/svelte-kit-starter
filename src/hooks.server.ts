@@ -6,15 +6,15 @@ import { i18n } from '$lib/i18n/i18n-util';
 import { loadAllLocales } from '$lib/i18n/i18n-util.sync';
 import { auth } from '$lib/server/lucia';
 
-export type Theme = 'light' | 'dark';
-const DEFAULT_THEME: Theme = 'light';
+export type Theme = 'winter' | 'night';
+const DEFAULT_THEME: Theme = 'winter';
 const DEFAULT_LOCALE: BaseLocale = 'en';
 
 loadAllLocales();
 const L = i18n();
 
 export const isValidTheme = (theme?: FormDataEntryValue | null): theme is Theme =>
-	!!theme && (theme === 'light' || theme === 'dark' || theme === 'auto');
+	!!theme && (theme === 'winter' || theme === 'night' || theme === 'auto');
 
 export const isValidLocale = (locale?: FormDataEntryValue | null): locale is Locales =>
 	!!locale && (locale === 'en' || locale === 'th');

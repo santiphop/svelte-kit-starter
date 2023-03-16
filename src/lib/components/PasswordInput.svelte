@@ -5,6 +5,7 @@
 
 	export let name = 'password';
 	export let placeholder = '';
+	export let required = false;
 
 	let showPassword = false;
 	let password: string;
@@ -16,10 +17,14 @@
 		type={showPassword ? 'text' : 'password'}
 		{name}
 		{placeholder}
-		class="input-bordered input"
+		{required}
+		class="input-bordered input border-r-0"
 	/>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<div on:click={() => (showPassword = !showPassword)} class="btn-square btn">
+	<div
+		on:click={() => (showPassword = !showPassword)}
+		class="btn-outline btn-ghost btn-square btn border-l-0 border-base-content"
+	>
 		<Icon icon={showPassword ? eyeOutline : eyeOffOutline} width="24" height="24" />
 	</div>
 </div>

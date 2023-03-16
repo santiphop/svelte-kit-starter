@@ -12,9 +12,9 @@
 </script>
 
 <form method="POST" use:enhance={submitUpdateTheme}>
-	{#if $page.data.theme === 'light'}
+	{#if $page.data.theme === 'winter'}
 		<button
-			formaction="/?/setTheme&theme=dark&redirectTo={$page.url.pathname}"
+			formaction="/?/setTheme&theme=night&redirectTo={$page.url.pathname}"
 			class="btn-ghost btn-circle btn"
 			data-cy="dark"
 		>
@@ -22,9 +22,9 @@
 		</button>
 	{:else}
 		<button
-			formaction="/?/setTheme&theme=light&redirectTo={$page.url.pathname}"
+			formaction="/?/setTheme&theme=winter&redirectTo={$page.url.pathname}"
 			class="btn-ghost btn-circle btn"
-			data-cy="dark"
+			data-cy="light"
 		>
 			<Icon icon={whiteBalanceSunny} width="24" height="24" />
 		</button>
