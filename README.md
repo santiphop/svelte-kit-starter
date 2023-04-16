@@ -41,7 +41,7 @@ pnpm dev
 ```
 
 To visit local development server:
-<http://localhost:5143>
+<http://localhost:5173>
 
 To visit prisma studio server:
 <http://localhost:5555>
@@ -88,7 +88,7 @@ pnpm preview
 ```
 
 To visit local built server:
-<http://localhost:4143>
+<http://localhost:4173>
 
 ### Docker
 
@@ -103,8 +103,8 @@ make docker-app
 | Environment   | Port |
 | ------------- | ---- |
 | docker build  | 3000 |
-| local build   | 4143 |
-| local dev     | 5143 |
+| local build   | 4173 |
+| local dev     | 5173 |
 | postgres      | 5432 |
 | prisma studio | 5555 |
 | minio console | 9001 |
