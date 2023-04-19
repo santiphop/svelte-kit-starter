@@ -34,6 +34,8 @@ export async function getDownloadUrl(locationPath: string | null) {
 }
 
 export async function upload(file: File) {
+	if (file.size <= 0) return;
+
 	const locationPath = `${Date.now()}-${file.name}`;
 
 	const command = new PutObjectCommand({

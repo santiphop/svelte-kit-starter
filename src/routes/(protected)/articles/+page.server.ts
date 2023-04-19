@@ -1,15 +1,31 @@
 import type { Actions, PageServerLoad } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma';
-import { z, ZodError } from 'zod';
+import { message, superValidate } from 'sveltekit-superforms/server';
+import { z } from 'zod';
 import { remove, upload } from '$lib/server/s3';
+import type { TranslationFunctions } from '$lib/i18n/i18n-types';
 
-export const load: PageServerLoad = async ({ parent }) => {
+const articleSchema = ($LL: TranslationFunctions) =>
+	z.object({
+		title: z
+			.string()
+			.nonempty({ message: `${$LL.attributes.title()}${$LL.errors.blank()}` })
+			.trim(),
+		content: z
+			.string()
+			.max(255, { message: `${$LL.attributes.content()}${$LL.errors.maxlength(255)}` })
+			.trim()
+	});
+
+export const load: PageServerLoad = async ({ parent, locals: { $LL } }) => {
 	await parent();
 	const articles = await prisma.article.findManyWithImage({ orderBy: { created_at: 'desc' } });
+	const form = await superValidate(articleSchema($LL));
 
 	return {
-		articles
+		articles,
+		form
 	};
 };
 
@@ -20,43 +36,26 @@ export const actions: Actions = {
 			throw redirect(302, '/');
 		}
 
-		const articleSchema = z.object({
-			title: z
-				.string()
-				.nonempty({ message: `${$LL.attributes.title()}${$LL.errors.blank()}` })
-				.trim(),
-			content: z
-				.string()
-				.max(255, { message: `${$LL.attributes.content()}${$LL.errors.maxlength(255)}` })
-				.trim()
-		});
+		const formData = await request.formData();
+		const form = await superValidate(formData, articleSchema($LL));
 
-		const form = await request.formData();
-		const formData = Object.fromEntries(form);
-		const file = form.get('image') as File;
+		if (!form.valid) return fail(400, { form });
 
 		try {
+			const file = formData.get('image') as File;
 			const locationPath = await upload(file);
-			const data = articleSchema.parse(formData);
 			await prisma.article.create({
 				data: {
-					...data,
+					...form.data,
 					userId: user.userId,
 					image: locationPath
 				}
 			});
 		} catch (error) {
-			if (error instanceof ZodError) {
-				const { fieldErrors: errors } = error.flatten();
-				return fail(400, { errors });
-			}
 			return fail(500, { message: error });
 		}
 
-		return {
-			status: 201,
-			message: 'Create article success!'
-		};
+		return message(form, 'Create article success!', { status: 200 });
 	},
 	deleteArticle: async ({ url, locals: { validateUser } }) => {
 		const { user, session } = await validateUser();

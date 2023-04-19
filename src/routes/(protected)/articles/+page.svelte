@@ -1,69 +1,56 @@
 <script lang="ts">
-	import type { ActionData, PageData } from './$types';
+	import { dev } from '$app/environment';
+	import { enhance as formenhance } from '$app/forms';
 	import { fade } from 'svelte/transition';
-	import { applyAction, enhance, type SubmitFunction } from '$app/forms';
 	import LL from '$lib/i18n/i18n-svelte';
 	import toast from 'svelte-french-toast';
+	import { superForm } from 'sveltekit-superforms/client';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import Icon from '@iconify/svelte';
 	import contentDuplicate from '@iconify/icons-mdi/content-duplicate';
 	import squareEditOutline from '@iconify/icons-mdi/square-edit-outline';
 	import trashCanOutline from '@iconify/icons-mdi/trash-can-outline';
 
-	export let data: PageData;
-	export let form: ActionData;
-
-	const submitCreate: SubmitFunction = () => {
-		return ({ result, update }) => {
-			applyAction(result);
-			switch (result.type) {
-				case 'success':
-					toast.success(result.data?.message);
-					update();
-					break;
-				case 'failure':
-					toast.error(result.data?.message);
-					break;
+	export let data;
+	const { form, errors, enhance } = superForm(data.form, {
+		resetForm: true,
+		onUpdated({ form }) {
+			if (form.valid) {
+				toast.success(form.message);
+			} else {
+				toast.error(form.message);
 			}
-		};
-	};
-
-	const flashMessage: SubmitFunction = () => {
-		return ({ result, update }) => {
-			switch (result.type) {
-				case 'success':
-					toast.success(result.data?.message);
-					return update();
-				case 'failure':
-					return toast.error(result.data?.message);
-			}
-		};
-	};
+		}
+	});
 </script>
 
+{#if dev} <SuperDebug data={$form} /> {/if}
 <div class="card bg-primary/30 shadow-lg" in:fade>
 	<div class="card-body space-y-8">
 		<h2 class="card-title">{$LL.articles()}</h2>
-		<form method="POST" action="?/createArticle" use:enhance={submitCreate} class="flex w-fit flex-col gap-2">
+		<form method="POST" action="?/createArticle" use:enhance class="flex w-fit flex-col gap-2">
 			{$LL.write_something()}
 			<div>
 				<input
 					id="title"
 					name="title"
 					placeholder={$LL.attributes.title()}
+					bind:value={$form.title}
 					class="input w-full"
-					class:input-error={form?.errors?.title}
+					class:input-error={$errors.title}
 				/>
-				{#if form?.errors?.title}<p class="text-error">{form?.errors?.title[0]}</p>{/if}
+				{#if $errors.title} <p class="text-error">{$errors.title[0]}</p> {/if}
 			</div>
 			<div>
 				<textarea
 					id="content"
 					name="content"
 					placeholder={$LL.attributes.content()}
+					bind:value={$form.content}
 					class="textarea w-full"
-					class:textarea-error={form?.errors?.content}
+					class:textarea-error={$errors.content}
 				/>
-				{#if form?.errors?.content}<p class="text-error">{form?.errors?.content[0]}</p>{/if}
+				{#if $errors.content} <p class="text-error">{$errors.content[0]}</p> {/if}
 			</div>
 			<div>
 				<input id="image" name="image" type="file" class="file-input" accept="image/*" />
@@ -72,7 +59,7 @@
 		</form>
 		{#each data.articles as article}
 			<div class="card card-body bg-neutral text-neutral-content">
-				<form method="POST" use:enhance={flashMessage} class="flex justify-between">
+				<form method="POST" use:formenhance class="flex justify-between">
 					<h3 class="text-2xl">{article.title}<span class="text-sm">(id: {article.id})</span></h3>
 					{#if article.userId === data.user?.userId}
 						<div>
