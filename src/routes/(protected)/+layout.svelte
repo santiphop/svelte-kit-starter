@@ -1,7 +1,9 @@
 <script>
 	import Drawer from '$lib/components/layouts/Drawer.svelte';
+
+	export let data;
 </script>
 
-<Drawer>
+<Drawer url={data.url}>
 	<slot />
 </Drawer>

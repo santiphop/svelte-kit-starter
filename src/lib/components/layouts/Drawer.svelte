@@ -1,11 +1,13 @@
 <script lang="ts">
 	import ThemeSwitcher from './ThemeSwitcher.svelte';
 	import LocaleSwitcher from './LocaleSwitcher.svelte';
+	import PageTransition from './PageTransition.svelte';
 	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
 	import menuOpen from '@iconify/icons-mdi/menu-open';
 	import chevronDown from '@iconify/icons-mdi/chevron-down';
 
+	export let url: string;
 	let drawers = ['articles', 'link1', 'link2', 'link3', 'link4', 'link5'];
 </script>
 
@@ -50,9 +52,9 @@
 			</div>
 		</div>
 		<!-- Slot -->
-		<div class="p-5 lg:p-12">
+		<PageTransition key={url}>
 			<slot />
-		</div>
+		</PageTransition>
 	</div>
 	<div class="drawer-side">
 		<label for="my-drawer-2" class="drawer-overlay" />

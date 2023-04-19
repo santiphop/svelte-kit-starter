@@ -1,7 +1,7 @@
 import type { LayoutServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
-export const load: LayoutServerLoad = async ({ locals }) => {
+export const load: LayoutServerLoad = async ({ locals, url }) => {
 	const { user } = await locals.validateUser();
 	if (!user) {
 		console.error('Access Denied');
@@ -9,6 +9,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	}
 
 	return {
-		user
+		user,
+		url: url.pathname
 	};
 };
